@@ -943,16 +943,18 @@ body.dark .day-number.today{
         </div>
       </div>
 
-
       <div class="setting-card">
         <div class="setting-item">
           <div class="setting-info">
             <div class="setting-title">🔔 แจ้งเตือนก่อนเรียน</div>
-            <div class="setting-desc">เลือก 5/10/15/30 นาที และแจ้งเมื่อถึงเวลาเรียน</div>
+            <div class="setting-desc">เปิดแจ้งเตือนก่อนเวลาเรียน</div>
           </div>
-          <button class="btn-action primary" onclick="enableNotifications()"><i class="fa-solid fa-bell"></i> เปิด</button>
+          <button class="btn-action primary" onclick="enableNotifications()">
+            <i class="fa-solid fa-bell"></i> เปิด
+          </button>
         </div>
       </div>
+
       <div class="setting-card">
         <div class="setting-item">
           <div class="setting-info">
@@ -1144,35 +1146,73 @@ body.dark .day-number.today{
     }
 
     
-let notifyMinutes=parseInt(localStorage.getItem('notifyMinutes')||'10');
-async function enableNotifications(){
- if(!('Notification' in window)){showToast('ไม่รองรับ');return;}
- const p=await Notification.requestPermission();
- if(p==='granted'){showToast('เปิดแจ้งเตือนแล้ว');localStorage.setItem('notifyMinutes',notifyMinutes);}
+// ===== V13 Notification Patch (non-destructive) =====
+let notifyMinutes = parseInt(localStorage.getItem('notifyMinutes') || '10');
+
+async function enableNotifications() {
+  if (!('Notification' in window)) {
+    showToast('อุปกรณ์นี้ไม่รองรับการแจ้งเตือน');
+    return;
+  }
+  const permission = await Notification.requestPermission();
+  if (permission === 'granted') {
+    localStorage.setItem('notifyMinutes', notifyMinutes);
+    showToast('🔔 เปิดการแจ้งเตือนแล้ว');
+  } else {
+    showToast('ยังไม่ได้อนุญาตการแจ้งเตือน');
+  }
 }
-setInterval(()=>{
- if(Notification.permission!=='granted')return;
- const now=new Date();
- students.forEach(st=>(st.classes||[]).forEach(c=>{
-  if(c.done)return;
-  const m=(c.dateStr||'').match(/(\d+)-(\d+)-(\d+)/); if(!m)return;
-  const hm=(c.time||'').split(' - ')[0].match(/(\d+):(\d+)/); if(!hm)return;
-  const start=new Date(+m[1],+m[2]-1,+m[3],+hm[1],+hm[2]);
-  const diff=(start-now)/60000;
-  const key='n_'+c.id+'_'+now.toDateString();
-  if(diff<=notifyMinutes && diff>notifyMinutes-1 && !localStorage.getItem(key)){
-    navigator.serviceWorker?.ready.then(r=>r.showNotification('📚 อีก '+notifyMinutes+' นาทีถึงเวลาเรียน',{body:st.icon+' '+st.name+': '+c.title,icon:'icon-192.png'}));
-    localStorage.setItem(key,'1');
-  }
-  if(diff<=0 && diff>-1){
-    const key2='s_'+c.id+'_'+now.toDateString();
-    if(!localStorage.getItem(key2)){
-      navigator.serviceWorker?.ready.then(r=>r.showNotification('⏰ ถึงเวลาเรียนแล้ว',{body:c.title,icon:'icon-192.png'}));
-      localStorage.setItem(key2,'1');
-    }
-  }
- }));
-},60000);
+
+function checkUpcomingClasses() {
+  if (!('Notification' in window) || Notification.permission !== 'granted') return;
+
+  const now = new Date();
+
+  students.forEach(st => {
+    (st.classes || []).forEach(c => {
+      if (c.done) return;
+
+      const m = String(c.dateStr || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
+      if (!m) return;
+
+      const t = (c.time || '').split(' - ')[0].trim();
+      const hm = t.match(/^(\d{1,2}):(\d{2})$/);
+      if (!hm) return;
+
+      const start = new Date(+m[1], +m[2]-1, +m[3], +hm[1], +hm[2]);
+      const diff = (start - now) / 60000;
+
+      const key = 'notify_'+c.id+'_'+now.toDateString();
+
+      if (diff <= notifyMinutes && diff > notifyMinutes-1 && !localStorage.getItem(key)) {
+        navigator.serviceWorker?.ready.then(reg => {
+          reg.showNotification('📚 อีก '+notifyMinutes+' นาทีถึงเวลาเรียน', {
+            body: st.icon+' '+st.name+': '+c.title,
+            icon: 'icon-192.png',
+            badge: 'icon-192.png'
+          });
+        });
+        localStorage.setItem(key,'1');
+      }
+
+      const key2 = 'start_'+c.id+'_'+now.toDateString();
+      if (diff <= 0 && diff > -1 && !localStorage.getItem(key2)) {
+        navigator.serviceWorker?.ready.then(reg => {
+          reg.showNotification('⏰ ถึงเวลาเรียนแล้ว', {
+            body: c.title,
+            icon: 'icon-192.png',
+            badge: 'icon-192.png'
+          });
+        });
+        localStorage.setItem(key2,'1');
+      }
+    });
+  });
+}
+
+setInterval(checkUpcomingClasses, 60000);
+window.addEventListener('focus', checkUpcomingClasses);
+
 
 function renderStudentSelector() {
       const bar = document.getElementById('studentBar');
@@ -1772,10 +1812,10 @@ mq.addEventListener?.('change',e=>{
 </script>
 
 <script>
-if('serviceWorker' in navigator){
-  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js'));
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js'));
 }
 </script>
-
 </body>
+
 </html>
