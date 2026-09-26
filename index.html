@@ -1,0 +1,1781 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>ตารางเรียน & ร้านค้าของรางวัล</title>
+  
+  <!-- PWA & Web App Meta Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#ff5e8e">
+  <meta name="mobile-web-app-capable" content="yes">
+  
+  <!-- iOS / Apple Specific Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="ตารางเรียน">
+  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3429/3429149.png">
+
+  <!-- Google Fonts: Kanit & Prompt -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <style>
+    :root {
+      --primary-pink: #d81b60;
+      --header-gradient: linear-gradient(135deg, #ff5e8e 0%, #e91e63 100%);
+      --bg-color: #fdf8f9;
+      --card-pink: #fff0f5;
+      --card-pink-border: #f8bbd0;
+      --card-green: #e8f5e9;
+      --card-green-border: #a5d6a7;
+      --text-color: #2c3e50;
+      --text-muted: #7f8c8d;
+      --shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      font-family: 'Kanit', 'Prompt', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      min-height: 100vh;
+      padding-bottom: calc(40px + env(safe-area-inset-bottom));
+      padding-top: env(safe-area-inset-top);
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    /* Header Section */
+    .header-card {
+      background: var(--header-gradient);
+      color: white;
+      padding: 20px;
+      padding-top: calc(20px + env(safe-area-inset-top));
+      border-bottom-left-radius: 28px;
+      border-bottom-right-radius: 28px;
+      box-shadow: 0 4px 15px rgba(233, 30, 99, 0.3);
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .title-group h1 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .subtitle {
+      font-size: 0.85rem;
+      opacity: 0.9;
+      font-weight: 300;
+    }
+
+    /* Student Switcher Pill */
+    .student-selector-bar {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      margin-bottom: 10px;
+      scrollbar-width: none;
+    }
+
+    .student-selector-bar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .student-chip {
+      background: rgba(255, 255, 255, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      color: white;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .student-chip.active {
+      background: white;
+      color: #e91e63;
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .star-badge {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(5px);
+      padding: 6px 14px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      transition: transform 0.2s;
+    }
+
+    .star-badge:active {
+      transform: scale(0.95);
+    }
+
+    .star-badge i {
+      color: #ffeb3b;
+      text-shadow: 0 0 5px rgba(255, 235, 59, 0.5);
+    }
+
+    /* Navigation Tabs */
+    .nav-tabs {
+      display: flex;
+      gap: 6px;
+      margin-top: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 4px;
+      border-radius: 16px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 8px 4px;
+      border: none;
+      background: transparent;
+      color: white;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 500;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+
+    .tab-btn.active {
+      background: white;
+      color: #e91e63;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    
+    .calendar-swipe-area{
+      touch-action: pan-y;
+      position: relative;
+    }
+    .calendar-swipe-area.swiping{
+      transition: transform .15s ease;
+    }
+
+    /* Schedule & Calendar */
+    .month-selector {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 18px;
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .month-label {
+      font-weight: 600;
+      color: #ad1457;
+      font-size: 1rem;
+    }
+
+    .nav-btn {
+      background: #f8bbd0;
+      border: none;
+      color: #ad1457;
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+
+    .calendar-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      text-align: center;
+      margin-top: 14px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: #888;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+      text-align: center;
+      margin: 8px 0 14px 0;
+    }
+
+    .day-number {
+      aspect-ratio: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #37474f;
+      cursor: pointer;
+      background: white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .day-number.empty {
+      background: transparent;
+      box-shadow: none;
+      cursor: default;
+    }
+
+    .day-number.active {
+      background-color: #e91e63;
+      color: white !important;
+      font-weight: 700;
+      box-shadow: 0 4px 10px rgba(233, 30, 99, 0.4);
+    }
+
+    .day-number.today {
+      border: 2px solid #e91e63;
+      color: #e91e63;
+    }
+
+    /* Class Indicator Dots on Calendar */
+    .has-class-dot {
+      width: 5px;
+      height: 5px;
+      background-color: #e91e63;
+      border-radius: 50%;
+      position: absolute;
+      bottom: 4px;
+    }
+
+    .has-class-dot.all-done {
+      background-color: #4caf50;
+    }
+
+    .day-number.active .has-class-dot {
+      background-color: white;
+    }
+
+    .calendar-legend {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      font-size: 0.75rem;
+      color: #666;
+      margin-bottom: 12px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 10px 0 14px 0;
+    }
+
+    .date-title {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .add-btn {
+      background: var(--header-gradient);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(233, 30, 99, 0.3);
+    }
+
+    .card-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .class-card {
+      border-radius: 18px;
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow);
+    }
+
+    .class-card.completed {
+      background-color: var(--card-green);
+      border: 1px solid var(--card-green-border);
+    }
+
+    .class-card.pending {
+      background-color: var(--card-pink);
+      border: 1px solid var(--card-pink-border);
+    }
+
+    .time-badge {
+      background: white;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      color: #555;
+      display: inline-flex;
+      margin-bottom: 4px;
+    }
+
+    .subject-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+
+    .subject-title.strikethrough {
+      text-decoration: line-through;
+      color: #666;
+    }
+
+    .location {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .card-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .delete-btn {
+      background: transparent;
+      border: none;
+      color: #ff5252;
+      font-size: 1rem;
+      cursor: pointer;
+      padding: 6px;
+      opacity: 0.6;
+    }
+
+    .check-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      cursor: pointer;
+    }
+
+    .check-btn.checked {
+      background: #4caf50;
+      color: white;
+    }
+
+    .check-btn.unchecked {
+      background: white;
+      color: #ccc;
+      border: 2px solid #ddd;
+    }
+
+    /* Preset Subject Chips */
+    .preset-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #ad1457;
+      margin-bottom: 6px;
+    }
+
+    .preset-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .preset-chip {
+      background: #fce4ec;
+      color: #c2185b;
+      border: 1px solid #f8bbd0;
+      padding: 5px 10px;
+      border-radius: 14px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    /* Reward Shop View */
+    .reward-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .reward-card {
+      background: white;
+      border: 1px solid #f0f0f0;
+      border-radius: 18px;
+      padding: 16px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      position: relative;
+    }
+
+    .delete-reward-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: transparent;
+      border: none;
+      color: #bbb;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    .reward-icon {
+      font-size: 2.2rem;
+    }
+
+    .reward-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .reward-cost {
+      color: #e91e63;
+      font-weight: 700;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .redeem-btn {
+      background: var(--header-gradient);
+      color: white;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 14px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 4px;
+    }
+
+    .redeem-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    /* Settings View */
+    .setting-card {
+      background: white;
+      border-radius: 18px;
+      padding: 18px;
+      margin-top: 14px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .setting-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .setting-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .setting-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .setting-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .setting-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .student-list-manage {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .student-manage-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fdf8f9;
+      border: 1px solid #f8bbd0;
+      padding: 8px 12px;
+      border-radius: 12px;
+    }
+
+    .btn-action {
+      background: #f0f0f0;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-action.danger {
+      background: #ffebee;
+      color: #d32f2f;
+    }
+
+    .btn-action.primary {
+      background: #e3f2fd;
+      color: #1976d2;
+    }
+
+    .btn-action.pwa {
+      background: #e8f5e9;
+      color: #2e7d32;
+      font-weight: 600;
+    }
+
+    
+/* ===== V6.7 iPhone Event Form ===== */
+.day-wrap{display:flex;gap:8px;justify-content:space-between}
+.day-pill{flex:1;position:relative}
+.day-pill input{display:none}
+.day-pill span{display:flex;justify-content:center;align-items:center;height:46px;border-radius:15px;background:#fff5f8;border:1.5px solid #f8bbd0;color:#c2185b;font-weight:700;transition:.18s}
+.day-pill input:checked+span{background:#e91e63;color:#fff;border-color:#e91e63;transform:scale(.97);box-shadow:0 6px 14px rgba(233,30,99,.25)}
+.time-card{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}
+.time-box{padding:12px;border-radius:16px;font-size:1.05rem;font-weight:700;text-align:center}
+.time-start{background:#fff;border:1px solid #ddd}
+.time-end{background:#fff0f5;border:1px solid #f8bbd0;color:#e91e63}
+.btn-submit{padding:14px;border-radius:16px;font-size:1rem;position:sticky;bottom:0}
+
+/* Modal Form Overlay */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 24px;
+      padding: 18px;
+      width: 100%;
+      max-width: 390px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+      color: #ad1457;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 4px;
+      color: #555;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .btn-submit {
+      flex: 1;
+      background: var(--header-gradient);
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 14px;
+      font-family: inherit;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-cancel {
+      flex: 1;
+      background: #f0f0f0;
+      color: #666;
+      border: none;
+      padding: 10px;
+      border-radius: 14px;
+      font-family: inherit;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #323232;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+      z-index: 2000;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+  
+/* ===== Dark Mode ===== */
+:root{
+  --bg:#f6f3f5;
+  --surface:#ffffff;
+  --surface2:#ffe4ef;
+  --text:#1f2937;
+  --muted:#6b7280;
+}
+body{background:var(--bg);color:var(--text);transition:.25s;}
+body.dark{
+  --bg:#0f1115;
+  --surface:#181b22;
+  --surface2:#242833;
+  --text:#f3f4f6;
+  --muted:#9ca3af;
+}
+body.dark .header-card{background:linear-gradient(135deg,#ff4f9a,#c2185b);}
+body.dark .month-selector,
+body.dark .class-card,
+body.dark .reward-card,
+body.dark .setting-card,
+body.dark .day-number,
+body.dark .nav-tabs{
+  background:var(--surface)!important;
+  color:var(--text)!important;
+}
+body.dark .calendar-weekdays div,
+body.dark .legend,
+body.dark .subtitle{color:var(--muted)!important;}
+.dark-toggle{
+  width:46px;height:46px;border:none;border-radius:50%;
+  background:rgba(255,255,255,.18);color:#fff;cursor:pointer;
+  backdrop-filter:blur(10px);
+}
+
+
+/* ===== V11.1 iOS Liquid Glass ===== */
+:root{
+ --glass:rgba(255,255,255,.16);
+ --glass-border:rgba(255,255,255,.25);
+}
+body{transition:background .35s,color .35s;}
+body.dark{
+  background:#0b0d12;
+}
+body.dark .header-card{
+  background:linear-gradient(135deg,#ff5ba5,#c2185b);
+  box-shadow:0 20px 40px rgba(0,0,0,.35);
+}
+body.dark .month-selector,
+body.dark .nav-tabs,
+body.dark .class-card,
+body.dark .reward-card,
+body.dark .setting-card{
+  background:rgba(24,28,36,.72)!important;
+  backdrop-filter:blur(20px) saturate(160%);
+  border:1px solid rgba(255,255,255,.08);
+}
+body.dark .day-number{
+  background:rgba(34,39,48,.75)!important;
+  color:#f5f7fa!important;
+}
+body.dark .day-number.today{
+  box-shadow:0 0 24px rgba(255,20,120,.35);
+}
+.dark-toggle{
+  width:42px;height:42px;border-radius:50%;
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  backdrop-filter:blur(18px);
+}
+
+</style>
+</head>
+<body>
+
+  <!-- Header Card -->
+  <div class="header-card">
+    <div class="container">
+      <!-- Student Selector Bar -->
+      <div class="student-selector-bar" id="studentBar"></div>
+
+      <div class="top-bar"><button class="dark-toggle" onclick="toggleDarkMode()" title="Dark Mode">🌙</button>
+        <div class="title-group">
+          <h1 id="currentStudentTitle">👧 น้องต้นกล้า</h1>
+          <div class="subtitle">ตารางเรียน & สะสมดาวแลกของรางวัล ⭐️</div>
+        </div>
+        <div class="star-badge" onclick="switchTab('shop')">
+          <i class="fa-solid fa-star"></i>
+          <span id="starCount">0</span>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <div class="nav-tabs">
+        <button class="tab-btn active" id="tab-schedule" onclick="switchTab('schedule')">
+          <i class="fa-solid fa-calendar-days"></i> ตารางเรียน
+        </button>
+        <button class="tab-btn" id="tab-shop" onclick="switchTab('shop')">
+          <i class="fa-solid fa-gift"></i> ร้านรางวัล
+        </button>
+        <button class="tab-btn" id="tab-settings" onclick="switchTab('settings')">
+          <i class="fa-solid fa-gear"></i> ตั้งค่า
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- TAB 1: Schedule -->
+    <div id="view-schedule" class="tab-content active">
+      <div id="calendarSwipeArea" class="calendar-swipe-area">
+      <div class="month-selector">
+        <button class="nav-btn" onclick="prevMonth()"><i class="fa-solid fa-caret-left"></i></button>
+        <span class="month-label" id="monthLabel">มีนาคม 2569</span>
+        <button class="nav-btn" onclick="nextMonth()"><i class="fa-solid fa-caret-right"></i></button>
+      </div>
+
+      <div class="calendar-weekdays">
+        <div>อา</div><div>จ</div><div>อ</div><div>พ</div><div>พฤ</div><div>ศ</div><div>ส</div>
+      </div>
+
+      <div class="calendar-grid" id="calendarGrid"></div>
+      </div>
+
+      <!-- Legend -->
+      <div class="calendar-legend">
+        <div class="legend-item"><span class="legend-dot" style="background:#e91e63;"></span> มีเรียน</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#4caf50;"></span> เรียนครบแล้ว</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#ccc;"></span> ไม่มีเรียน</div>
+      </div>
+
+      <div class="section-header">
+        <div class="date-title" id="selectedDateTitle">📌 วิชาที่ต้องเรียนวันนี้</div>
+        <button class="add-btn" onclick="openModal('classModal')">
+          <i class="fa-solid fa-plus"></i> เพิ่มวิชา
+        </button>
+      </div>
+
+      <div class="card-list" id="scheduleList"></div>
+    </div>
+
+    <!-- TAB 2: Reward Shop -->
+    <div id="view-shop" class="tab-content">
+      <div class="section-header">
+        <div class="date-title">🎁 ของรางวัลสำหรับคนเก่ง</div>
+        <button class="add-btn" onclick="openModal('rewardModal')">
+          <i class="fa-solid fa-plus"></i> เพิ่มรางวัล
+        </button>
+      </div>
+
+      <div class="reward-grid" id="rewardList"></div>
+    </div>
+
+    <!-- TAB 3: Settings -->
+    <div id="view-settings" class="tab-content">
+      <div class="section-header">
+        <div class="date-title">⚙️ ตั้งค่า & จัดการนักเรียน</div>
+      </div>
+
+      <div class="setting-card" id="pwaInstallCard" style="display: none;">
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-title">📲 ติดตั้งแอปบนเครื่อง (PWA)</div>
+            <div class="setting-desc">ติดตั้งแอปเพื่อใช้งานบนหน้าจอหลัก และเปิดได้แบบไม่ใช้เน็ต</div>
+          </div>
+          <button class="btn-action pwa" onclick="installPWA()">
+            <i class="fa-solid fa-download"></i> ติดตั้ง
+          </button>
+        </div>
+      </div>
+
+      <div class="setting-card">
+        <div class="setting-item" style="flex-direction: column; align-items: stretch; gap: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="setting-info">
+              <div class="setting-title">👨‍👩‍👧‍👦 รายชื่อนักเรียน / ลูกๆ</div>
+              <div class="setting-desc">เพิ่ม สลับ หรือจัดการรายชื่อน้องๆ</div>
+            </div>
+            <button class="btn-action primary" onclick="openModal('studentModal')">
+              <i class="fa-solid fa-user-plus"></i> เพิ่มนักเรียน
+            </button>
+          </div>
+          <div class="student-list-manage" id="studentManageList"></div>
+        </div>
+      </div>
+
+
+      <div class="setting-card">
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-title">🔔 แจ้งเตือนก่อนเรียน</div>
+            <div class="setting-desc">เลือก 5/10/15/30 นาที และแจ้งเมื่อถึงเวลาเรียน</div>
+          </div>
+          <button class="btn-action primary" onclick="enableNotifications()"><i class="fa-solid fa-bell"></i> เปิด</button>
+        </div>
+      </div>
+      <div class="setting-card">
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-title">สำรองข้อมูล (Backup)</div>
+            <div class="setting-desc">ดาวน์โหลดข้อมูลนักเรียนทุกคนเก็บไว้</div>
+          </div>
+          <button class="btn-action primary" onclick="exportData()">
+            <i class="fa-solid fa-download"></i> แบคอัพ
+          </button>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-title">นำเข้าข้อมูล (Restore)</div>
+            <div class="setting-desc">กู้คืนข้อมูลจากไฟล์ที่เคยสำรองไว้</div>
+          </div>
+          <button class="btn-action" onclick="document.getElementById('fileInput').click()">
+            <i class="fa-solid fa-upload"></i> นำเข้า
+          </button>
+          <input type="file" id="fileInput" accept=".json" style="display: none;" onchange="importData(event)">
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-title">รีเซ็ตสถานะการเรียน</div>
+            <div class="setting-desc">ยกเลิกติ๊กถูกวิชาของนักเรียนปัจจุบัน</div>
+          </div>
+          <button class="btn-action" onclick="resetCheckmarks()">
+            <i class="fa-solid fa-rotate-left"></i> รีเซ็ต
+          </button>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-title" style="color: #d32f2f;">ล้างข้อมูลทั้งหมด</div>
+            <div class="setting-desc">ลบข้อมูลนักเรียน ดาว วิชา และของรางวัลทั้งหมด</div>
+          </div>
+          <button class="btn-action danger" onclick="resetAllData()">
+            <i class="fa-solid fa-trash"></i> ล้างข้อมูล
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 1: Add/Edit Student Form -->
+  <div class="modal" id="studentModal">
+    <div class="modal-content">
+      <div class="modal-title" id="studentModalTitle">➕ เพิ่มนักเรียนคนใหม่</div>
+      <input type="hidden" id="editStudentId" value="">
+      <div class="form-group">
+        <label>รูปอีโมจิประจำตัว</label>
+        <input type="text" id="inputStudentIcon" placeholder="เช่น 👧 หรือ 👦">
+      </div>
+      <div class="form-group">
+        <label>ชื่อนักเรียน / ชื่อเล่น</label>
+        <input type="text" id="inputStudentName" placeholder="เช่น น้องต้นกล้า">
+      </div>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeModal('studentModal')">ยกเลิก</button>
+        <button class="btn-submit" onclick="saveStudent()">บันทึกนักเรียน</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2: Add Subject Form -->
+  <div class="modal" id="classModal">
+    <div class="modal-content">
+      <div class="modal-title">➕ เพิ่มวิชาเรียนใหม่</div>
+
+      <div class="preset-title">💡 เลือกวิชาแนะนำด่วน:</div>
+      <div class="preset-container">
+        <button class="preset-chip" onclick="applyPreset('✏️ ภาษาไทย (อ่าน-เขียน)', '16:30 - 17:30 น.', '', 1)">✏️ ภาษาไทย</button>
+        <button class="preset-chip" onclick="applyPreset('🔢 คณิตศาสตร์พื้นฐาน', '17:30 - 18:30 น.', '', 1)">🔢 คณิตศาสตร์</button>
+        <button class="preset-chip" onclick="applyPreset('🇬🇧 ภาษาอังกฤษ (Vocab)', '16:30 - 17:30 น.', '📍 ออนไลน์', 1)">🇬🇧 ภาษาอังกฤษ</button>
+        <button class="preset-chip" onclick="applyPreset('🧪 วิทยาศาสตร์น่ารู้', '17:30 - 18:30 น.', '📍 ห้องแล็บเด็ก', 1)">🧪 วิทยาศาสตร์</button>
+        <button class="preset-chip" onclick="applyPreset('🎨 ศิลปะ & ระบายสี', '16:00 - 17:00 น.', '📍 ห้องศิลปะ', 1)">🎨 ศิลปะ</button>
+        <button class="preset-chip" onclick="applyPreset('💻 โค้ดดิ้งเด็กเล็ก (ScratchJR)', '17:00 - 18:00 น.', '📍 ออนไลน์', 1)">💻 โค้ดดิ้ง</button>
+        <button class="preset-chip" onclick="applyPreset('🎵 ดนตรี / เปียโน', '16:30 - 17:30 น.', '📍 โรงเรียนดนตรี', 1)">🎵 ดนตรี</button>
+        <button class="preset-chip" onclick="applyPreset('🏊‍♂️ ว่ายน้ำ / พละศึกษา', '16:00 - 17:30 น.', '📍 สระว่ายน้ำ', 1)">🏊‍♂️ ว่ายน้ำ</button>
+      </div>
+
+      <div class="form-group">
+        <label>ชื่อวิชา (พร้อมอีโมจิ)</label>
+        <input type="text" id="inputSubject" placeholder="เช่น ✏️ ภาษาไทย">
+      </div>
+      
+<div class="form-group">
+<label>📅 ตารางประจำ</label>
+<div class="day-wrap" style="margin-top:8px">
+<label class="day-pill"><input type="checkbox" class="repeat-day" value="1"><span>จ</span></label>
+<label class="day-pill"><input type="checkbox" class="repeat-day" value="2"><span>อ</span></label>
+<label class="day-pill"><input type="checkbox" class="repeat-day" value="3"><span>พ</span></label>
+<label class="day-pill"><input type="checkbox" class="repeat-day" value="4"><span>พฤ</span></label>
+<label class="day-pill"><input type="checkbox" class="repeat-day" value="5"><span>ศ</span></label>
+<label class="day-pill"><input type="checkbox" class="repeat-day" value="6"><span>ส</span></label>
+<label class="day-pill"><input type="checkbox" class="repeat-day" value="0"><span>อา</span></label>
+</div>
+</div>
+
+<div class="form-group">
+<label>🕒 เวลาเรียน</label>
+<div class="time-card">
+<input type="time" id="inputStartTime" class="time-box time-start" step="300" style="-webkit-appearance:auto">
+<div style="font-size:1.2rem;color:#e91e63">→</div>
+<input type="time" id="inputEndTime" class="time-box time-end" readonly style="-webkit-appearance:auto">
+</div>
+<div style="font-size:.75rem;color:#888;margin-top:4px">เวลาเลิก +1 ชั่วโมงอัตโนมัติ</div>
+</div>
+
+<div class="form-group">
+<label>ชื่อครูผู้สอน
+</label>
+        <input type="text" id="inputLoc" placeholder="เช่น ครูปาล์ม">
+      </div>
+      <div class="form-group">
+        <label>ดาวที่จะได้รับเมื่อเรียนเสร็จ</label>
+        <input type="number" id="inputStars" value="1" min="1">
+      </div>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeModal('classModal')">ยกเลิก</button>
+        <button class="btn-submit" onclick="addClass()">บันทึกวิชา</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3: Add Reward Form -->
+  <div class="modal" id="rewardModal">
+    <div class="modal-content">
+      <div class="modal-title">🎁 เพิ่มของรางวัลใหม่</div>
+      <div class="form-group">
+        <label>รูปอีโมจิ</label>
+        <input type="text" id="inputRewardIcon" placeholder="เช่น 🍦 หรือ 🧸">
+      </div>
+      <div class="form-group">
+        <label>ชื่อของรางวัล</label>
+        <input type="text" id="inputRewardTitle" placeholder="เช่น กินไอศกรีม 1 ถ้วย">
+      </div>
+      <div class="form-group">
+        <label>จำนวนดาวที่ต้องใช้แลก</label>
+        <input type="number" id="inputRewardCost" value="3" min="1">
+      </div>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeModal('rewardModal')">ยกเลิก</button>
+        <button class="btn-submit" onclick="addReward()">บันทึกรางวัล</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <span id="toastMsg"></span>
+  </div>
+
+  <script>
+    let currentDate = new Date();
+    let selectedDate = new Date();
+
+    let students = JSON.parse(localStorage.getItem('app_students')) || [
+      { id: 101, name: 'น้องต้นกล้า', icon: '👧', stars: 0, classes: [], rewards: [] }
+    ];
+
+    let currentStudentId = parseInt(localStorage.getItem('app_current_student')) || students[0].id;
+
+    const thaiMonths = [
+      "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
+      "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"
+    ];
+
+    function getCurrentStudent() {
+      let found = students.find(s => s.id === currentStudentId);
+      if (!found) {
+        currentStudentId = students[0].id;
+        found = students[0];
+      }
+      return found;
+    }
+
+    function saveAppData() {
+      localStorage.setItem('app_students', JSON.stringify(students));
+      localStorage.setItem('app_current_student', currentStudentId);
+    }
+
+    function formatDateKey(dateObj) {
+      const y = dateObj.getFullYear();
+      const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+      const d = String(dateObj.getDate()).padStart(2, '0');
+      return `${y}-${m}-${d}`;
+    }
+
+    
+let notifyMinutes=parseInt(localStorage.getItem('notifyMinutes')||'10');
+async function enableNotifications(){
+ if(!('Notification' in window)){showToast('ไม่รองรับ');return;}
+ const p=await Notification.requestPermission();
+ if(p==='granted'){showToast('เปิดแจ้งเตือนแล้ว');localStorage.setItem('notifyMinutes',notifyMinutes);}
+}
+setInterval(()=>{
+ if(Notification.permission!=='granted')return;
+ const now=new Date();
+ students.forEach(st=>(st.classes||[]).forEach(c=>{
+  if(c.done)return;
+  const m=(c.dateStr||'').match(/(\d+)-(\d+)-(\d+)/); if(!m)return;
+  const hm=(c.time||'').split(' - ')[0].match(/(\d+):(\d+)/); if(!hm)return;
+  const start=new Date(+m[1],+m[2]-1,+m[3],+hm[1],+hm[2]);
+  const diff=(start-now)/60000;
+  const key='n_'+c.id+'_'+now.toDateString();
+  if(diff<=notifyMinutes && diff>notifyMinutes-1 && !localStorage.getItem(key)){
+    navigator.serviceWorker?.ready.then(r=>r.showNotification('📚 อีก '+notifyMinutes+' นาทีถึงเวลาเรียน',{body:st.icon+' '+st.name+': '+c.title,icon:'icon-192.png'}));
+    localStorage.setItem(key,'1');
+  }
+  if(diff<=0 && diff>-1){
+    const key2='s_'+c.id+'_'+now.toDateString();
+    if(!localStorage.getItem(key2)){
+      navigator.serviceWorker?.ready.then(r=>r.showNotification('⏰ ถึงเวลาเรียนแล้ว',{body:c.title,icon:'icon-192.png'}));
+      localStorage.setItem(key2,'1');
+    }
+  }
+ }));
+},60000);
+
+function renderStudentSelector() {
+      const bar = document.getElementById('studentBar');
+      bar.innerHTML = '';
+
+      students.forEach(s => {
+        const chip = document.createElement('div');
+        chip.className = `student-chip ${s.id === currentStudentId ? 'active' : ''}`;
+        chip.innerHTML = `${s.icon} ${s.name}`;
+        chip.onclick = () => switchStudent(s.id);
+        bar.appendChild(chip);
+      });
+
+      const st = getCurrentStudent();
+      document.getElementById('currentStudentTitle').innerText = `${st.icon} ${st.name}`;
+      updateStarDisplay();
+      renderSchedule();
+      renderShop();
+      renderStudentManageList();
+    }
+
+    function switchStudent(id) {
+      currentStudentId = id;
+      saveAppData();
+      renderStudentSelector();
+      renderCalendar();
+      showToast(`✨ สลับเป็น ${getCurrentStudent().name} แล้ว`);
+    }
+
+    function renderCalendar() {
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth();
+
+      document.getElementById('monthLabel').innerText = `${thaiMonths[month]} ${year + 543}`;
+
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+      const grid = document.getElementById('calendarGrid');
+      grid.innerHTML = '';
+
+      for (let i = 0; i < firstDay; i++) {
+        const empty = document.createElement('div');
+        empty.className = 'day-number empty';
+        grid.appendChild(empty);
+      }
+
+      const todayKey = formatDateKey(new Date());
+      const selectedKey = formatDateKey(selectedDate);
+      const st = getCurrentStudent();
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const thisDate = new Date(year, month, day);
+        const thisKey = formatDateKey(thisDate);
+
+        const dayEl = document.createElement('div');
+        dayEl.className = 'day-number';
+        dayEl.innerText = day;
+
+        if (thisKey === todayKey) dayEl.classList.add('today');
+        if (thisKey === selectedKey) dayEl.classList.add('active');
+
+        const dayClasses = (st.classes || []).filter(c => c.dateStr === thisKey);
+        if (dayClasses.length > 0) {
+          const dot = document.createElement('span');
+          dot.className = 'has-class-dot';
+          const allDone = dayClasses.every(c => c.done);
+          if (allDone) {
+            dot.classList.add('all-done');
+          }
+          dayEl.appendChild(dot);
+        }
+
+        dayEl.onclick = () => selectDate(thisDate);
+        grid.appendChild(dayEl);
+      }
+
+      updateDateTitle();
+    }
+
+    function updateDateTitle() {
+      const st = getCurrentStudent();
+      const selKey = formatDateKey(selectedDate);
+      const dayClasses = (st.classes || []).filter(c => c.dateStr === selKey);
+
+      const selD = selectedDate.getDate();
+      const selM = thaiMonths[selectedDate.getMonth()];
+      const selY = selectedDate.getFullYear() + 543;
+
+      const statusText = dayClasses.length > 0 
+        ? `(มีเรียน ${dayClasses.length} วิชา)` 
+        : `(วันนี้ไม่มีเรียน)`;
+
+      document.getElementById('selectedDateTitle').innerText = `📌 ${selD} ${selM} ${selY} ${statusText}`;
+    }
+
+    function prevMonth() {
+      currentDate.setMonth(currentDate.getMonth() - 1);
+      renderCalendar();
+    }
+
+    function nextMonth() {
+      currentDate.setMonth(currentDate.getMonth() + 1);
+      renderCalendar();
+    }
+
+    function selectDate(dateObj) {
+      selectedDate = dateObj;
+      renderCalendar();
+      renderSchedule();
+    }
+
+    function applyPreset(subject, time, loc, stars) {
+      document.getElementById('inputSubject').value = subject;
+      const p=time.replace(' น.','').split(' - ');document.getElementById('inputStartTime').value=(p[0]||'').trim();document.getElementById('inputEndTime').value=(p[1]||'').trim();
+      document.getElementById('inputLoc').value = loc;
+      document.getElementById('inputStars').value = stars;
+    }
+
+    function updateStarDisplay() {
+      const st = getCurrentStudent();
+      document.getElementById('starCount').innerText = st.stars || 0;
+    }
+
+    function renderSchedule() {
+      const list = document.getElementById('scheduleList');
+      list.innerHTML = '';
+
+      const st = getCurrentStudent();
+      const targetKey = formatDateKey(selectedDate);
+      const dayClasses = (st.classes || []).filter(c => c.dateStr === targetKey);
+
+      if (dayClasses.length === 0) {
+        list.innerHTML = `
+          <div style="text-align:center; padding: 30px 20px; color:#aaa; font-weight: 300;">
+            <i class="fa-solid fa-mug-hot" style="font-size: 2rem; margin-bottom: 8px; color: #f8bbd0;"></i><br>
+            วันนี้ไม่มีวิชาเรียนครับ<br>
+            <span style="font-size: 0.85rem;">กด "+ เพิ่มวิชา" เพื่อลงตารางเรียนได้เลย</span>
+          </div>`;
+        return;
+      }
+
+      dayClasses.forEach(c => {
+        const card = document.createElement('div');
+        card.className = `class-card ${c.done ? 'completed' : 'pending'}`;
+        card.innerHTML = `
+          <div>
+            <div class="time-badge">⏰ ${c.time}</div>
+            <div class="subject-title ${c.done ? 'strikethrough' : ''}">${c.title}</div>
+            <div class="location">${c.loc} (+${c.reward} ⭐️)</div>
+          </div>
+          <div class="card-actions">
+            <button class="delete-btn" onclick="removeClass(${c.id})" title="ลบวิชา"><i class="fa-solid fa-trash"></i></button>
+            <button class="check-btn ${c.done ? 'checked' : 'unchecked'}" onclick="toggleDone(${c.id})">
+              <i class="fa-solid fa-check"></i>
+            </button>
+          </div>
+        `;
+        list.appendChild(card);
+      });
+    }
+
+    function renderShop() {
+      const grid = document.getElementById('rewardList');
+      grid.innerHTML = '';
+
+      const st = getCurrentStudent();
+      const rewards = st.rewards || [];
+
+      if (rewards.length === 0) {
+        grid.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding: 20px; color:#aaa;">ยังไม่มีของรางวัล กด "+ เพิ่มรางวัล" ได้เลยครับ</div>`;
+        return;
+      }
+
+      rewards.forEach(r => {
+        const card = document.createElement('div');
+        card.className = 'reward-card';
+        const canAfford = (st.stars || 0) >= r.cost;
+        
+        card.innerHTML = `
+          <button class="delete-reward-btn" onclick="removeReward(${r.id})" title="ลบรางวัล"><i class="fa-solid fa-xmark"></i></button>
+          <div class="reward-icon">${r.icon}</div>
+          <div class="reward-title">${r.title}</div>
+          <div class="reward-cost"><i class="fa-solid fa-star"></i> ใช้ ${r.cost} ดาว</div>
+          <button class="redeem-btn" ${canAfford ? '' : 'disabled'} onclick="redeemReward('${r.title}', ${r.cost})">
+            ${canAfford ? 'แลกรางวัล' : 'ดาวไม่พอ'}
+          </button>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function renderStudentManageList() {
+      const list = document.getElementById('studentManageList');
+      list.innerHTML = '';
+
+      students.forEach(s => {
+        const item = document.createElement('div');
+        item.className = 'student-manage-item';
+        item.innerHTML = `
+          <div style="font-weight: 600;">${s.icon} ${s.name} <span style="font-size:0.8rem; color:#888; font-weight: normal;">(${s.stars || 0} ⭐️)</span></div>
+          <div style="display: flex; gap: 6px;">
+            <button class="btn-action" style="padding: 4px 8px;" onclick="editStudentModal(${s.id})"><i class="fa-solid fa-pen"></i></button>
+            ${students.length > 1 ? `<button class="btn-action danger" style="padding: 4px 8px;" onclick="removeStudent(${s.id})"><i class="fa-solid fa-trash"></i></button>` : ''}
+          </div>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    function saveStudent() {
+      const icon = document.getElementById('inputStudentIcon').value.trim() || '👧';
+      const name = document.getElementById('inputStudentName').value.trim();
+      const editId = document.getElementById('editStudentId').value;
+
+      if (!name) {
+        showToast('⚠️ กรุณากรอกชื่อนักเรียน');
+        return;
+      }
+
+      if (editId) {
+        const st = students.find(s => s.id === parseInt(editId));
+        if (st) {
+          st.name = name;
+          st.icon = icon;
+        }
+      } else {
+        const newStudent = {
+          id: Date.now(),
+          name: name,
+          icon: icon,
+          stars: 0,
+          classes: [
+            { id: 1, dateStr: formatDateKey(new Date()), time: '16:30 - 17:30 น.', title: '✏️ ภาษาไทย (อ่าน-เขียน)', loc: '', done: false, reward: 1 }
+          ],
+          rewards: [
+            { id: 1, icon: '🍦', title: 'กินไอศกรีม 1 ถ้วย', cost: 3 }
+          ]
+        };
+        students.push(newStudent);
+        currentStudentId = newStudent.id;
+      }
+
+      saveAppData();
+      renderStudentSelector();
+      renderCalendar();
+      closeModal('studentModal');
+      showToast('✅ บันทึกข้อมูลนักเรียนเรียบร้อย!');
+    }
+
+    function editStudentModal(id) {
+      const st = students.find(s => s.id === id);
+      if (!st) return;
+
+      document.getElementById('editStudentId').value = st.id;
+      document.getElementById('inputStudentIcon').value = st.icon;
+      document.getElementById('inputStudentName').value = st.name;
+      document.getElementById('studentModalTitle').innerText = '✏️ แก้ไขข้อมูลนักเรียน';
+      openModal('studentModal');
+    }
+
+    function removeStudent(id) {
+      if (students.length <= 1) {
+        showToast('⚠️ ต้องมีนักเรียนอย่างน้อย 1 คน');
+        return;
+      }
+      if (confirm('คุณต้องการลบรายชื่อนักเรียนคนนี้ใช่หรือไม่? ข้อมูลทั้งหมดจะถูกลบ')) {
+        students = students.filter(s => s.id !== id);
+        if (currentStudentId === id) {
+          currentStudentId = students[0].id;
+        }
+        saveAppData();
+        renderStudentSelector();
+        renderCalendar();
+        showToast('🗑️ ลบนักเรียนเรียบร้อยแล้ว');
+      }
+    }
+
+    
+function addClass(){
+ const title=document.getElementById('inputSubject').value.trim();
+ const start=document.getElementById('inputStartTime').value;
+ const end=document.getElementById('inputEndTime').value;
+ const loc=document.getElementById('inputLoc').value.trim();
+ const reward=parseInt(document.getElementById('inputStars').value)||1;
+ if(!title||!start){showToast('⚠️ กรุณาเลือกเวลาเริ่ม');return;}
+ const st=getCurrentStudent(); if(!st.classes) st.classes=[];
+ const repeat=[...document.querySelectorAll('.repeat-day:checked')].map(x=>+x.value);
+ const make=d=>st.classes.push({id:Date.now()+Math.random(),dateStr:formatDateKey(d),title,time:`${start} - ${end} น.`,loc:loc||'📍 ห้องเรียน',reward,done:false});
+ if(repeat.length){const base=new Date(selectedDate);for(let i=0;i<365;i++){const d=new Date(base);d.setDate(base.getDate()+i);if(repeat.includes(d.getDay()))make(d);}}
+ else make(new Date(selectedDate));
+ saveAppData();renderCalendar();renderSchedule();closeModal('classModal');showToast('✨ เพิ่มตารางเรียนแล้ว');
+ document.getElementById('inputSubject').value='';document.getElementById('inputStartTime').value='';document.getElementById('inputEndTime').value='';document.getElementById('inputLoc').value='';document.querySelectorAll('.repeat-day').forEach(c=>c.checked=false);
+}
+
+
+    
+function removeClass(id) {
+  const st = getCurrentStudent();
+  const item = (st.classes || []).find(c => c.id === id);
+  if (!item) return;
+
+  // สร้าง repeatId ให้ข้อมูลเก่าอัตโนมัติ
+  const groups = {};
+  (st.classes || []).forEach(c => {
+    const key = [c.title||'', c.teacher||'', c.time||'', c.loc||''].join('|');
+    (groups[key] = groups[key] || []).push(c);
+  });
+  Object.values(groups).forEach(list => {
+    if (list.length > 1) {
+      const rid = 'r_' + list[0].id;
+      list.forEach(c => { if (!c.repeatId) c.repeatId = rid; });
+    }
+  });
+
+  if (!item.repeatId) {
+    if (!confirm('ลบวิชานี้ใช่หรือไม่?')) return;
+    st.classes = st.classes.filter(c => c.id !== id);
+  } else {
+    const mode = prompt('ลบตารางประจำ\n1=ลบเฉพาะวันนี้\n2=ลบทั้งตาราง\n3=ลบตั้งแต่วันนี้เป็นต้นไป');
+    if (mode === '1') {
+      st.classes = st.classes.filter(c => c.id !== id);
+    } else if (mode === '2') {
+      st.classes = st.classes.filter(c => c.repeatId !== item.repeatId);
+    } else if (mode === '3') {
+      st.classes = st.classes.filter(c => !(c.repeatId === item.repeatId && c.dateStr >= item.dateStr));
+    } else {
+      return;
+    }
+  }
+
+  saveAppData();
+  renderCalendar();
+  renderSchedule();
+  showToast('🗑️ ลบเรียบร้อย');
+}
+
+
+    function addReward() {
+      const icon = document.getElementById('inputRewardIcon').value.trim() || '🎁';
+      const title = document.getElementById('inputRewardTitle').value.trim();
+      const cost = parseInt(document.getElementById('inputRewardCost').value) || 1;
+
+      if (!title) {
+        showToast('⚠️ กรุณากรอกชื่อของรางวัล');
+        return;
+      }
+
+      const st = getCurrentStudent();
+      if (!st.rewards) st.rewards = [];
+
+      st.rewards.push({
+        id: Date.now(),
+        icon: icon,
+        title: title,
+        cost: cost
+      });
+
+      saveAppData();
+      renderShop();
+      closeModal('rewardModal');
+      showToast('✨ เพิ่มของรางวัลเรียบร้อย!');
+
+      document.getElementById('inputRewardIcon').value = '';
+      document.getElementById('inputRewardTitle').value = '';
+    }
+
+    function removeReward(id) {
+      const st = getCurrentStudent();
+      st.rewards = (st.rewards || []).filter(r => r.id !== id);
+      saveAppData();
+      renderShop();
+      showToast('🗑️ ลบของรางวัลเรียบร้อยแล้ว');
+    }
+
+    function toggleDone(id) {
+      const st = getCurrentStudent();
+      const item = (st.classes || []).find(c => c.id === id);
+      if (item) {
+        item.done = !item.done;
+        if (item.done) {
+          st.stars = (st.stars || 0) + item.reward;
+          showToast(`🎉 เก่งมาก! ได้รับ +${item.reward} ดาว ⭐️`);
+        } else {
+          st.stars = Math.max(0, (st.stars || 0) - item.reward);
+          showToast(`➖ หัก -${item.reward} ดาว`);
+        }
+        saveAppData();
+        updateStarDisplay();
+        renderCalendar();
+        renderSchedule();
+        renderShop();
+        renderStudentManageList();
+      }
+    }
+
+    function redeemReward(title, cost) {
+      const st = getCurrentStudent();
+      if ((st.stars || 0) >= cost) {
+        st.stars -= cost;
+        saveAppData();
+        updateStarDisplay();
+        renderShop();
+        renderStudentManageList();
+        showToast(`🎁 แลกรางวัล "${title}" เรียบร้อยแล้ว!`);
+      }
+    }
+
+    function exportData() {
+      const backupData = {
+        students: students,
+        currentStudentId: currentStudentId
+      };
+      const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `students_schedule_backup_${formatDateKey(new Date())}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('📁 สำรองข้อมูลเรียบร้อยแล้ว!');
+    }
+
+    function importData(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const data = JSON.parse(e.target.result);
+          if (data.students && Array.isArray(data.students)) {
+            students = data.students;
+            currentStudentId = data.currentStudentId || students[0].id;
+
+            saveAppData();
+            renderStudentSelector();
+            renderCalendar();
+            showToast('✅ นำเข้าข้อมูลสำเร็จแล้ว!');
+          } else {
+            showToast('❌ รูปแบบไฟล์ไม่ถูกต้อง');
+          }
+        } catch (err) {
+          showToast('❌ เกิดข้อผิดพลาดในการอ่านไฟล์');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function resetCheckmarks() {
+      if (confirm(`คุณต้องการยกเลิกการติ๊กถูกเรียนเสร็จของ ${getCurrentStudent().name} ใช่หรือไม่?`)) {
+        const st = getCurrentStudent();
+        (st.classes || []).forEach(c => c.done = false);
+        saveAppData();
+        renderCalendar();
+        renderSchedule();
+        showToast('🔄 รีเซ็ตสถานะการเรียนเรียบร้อย');
+      }
+    }
+
+    function resetAllData() {
+      if (confirm('⚠️ คุณแน่ใจหรือไม่ว่าต้องการล้างข้อมูลทั้งหมด? ข้อมูลนักเรียนทั้งหมดจะถูกลบถาวร')) {
+        localStorage.clear();
+        students = [{ id: 101, name: 'น้องต้นกล้า', icon: '👧', stars: 0, classes: [], rewards: [] }];
+        currentStudentId = 101;
+        saveAppData();
+        renderStudentSelector();
+        renderCalendar();
+        showToast('🧹 ล้างข้อมูลทั้งหมดเรียบร้อย');
+      }
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+      document.getElementById(`tab-${tab}`).classList.add('active');
+      document.getElementById(`view-${tab}`).classList.add('active');
+    }
+
+    function openModal(id) {
+      if (id === 'studentModal' && !document.getElementById('editStudentId').value) {
+        document.getElementById('studentModalTitle').innerText = '➕ เพิ่มนักเรียนคนใหม่';
+        document.getElementById('editStudentId').value = '';
+        document.getElementById('inputStudentIcon').value = '';
+        document.getElementById('inputStudentName').value = '';
+      }
+      document.getElementById(id).classList.add('active');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+      if (id === 'studentModal') {
+        document.getElementById('editStudentId').value = '';
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    // PWA Service Worker & Installation Logic
+    let deferredPrompt;
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').then((reg) => {
+          console.log('ServiceWorker registered:', reg);
+        }).catch((err) => {
+          console.log('ServiceWorker registration failed:', err);
+        });
+      });
+    }
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      document.getElementById('pwaInstallCard').style.display = 'block';
+    });
+
+    function installPWA() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            showToast('🎉 ติดตั้งแอปเรียบร้อยแล้ว!');
+            document.getElementById('pwaInstallCard').style.display = 'none';
+          }
+          deferredPrompt = null;
+        });
+      }
+    }
+
+    // Initialize App
+    renderStudentSelector();
+    renderCalendar();
+  
+// ===== Swipe Calendar V8 =====
+(function(){
+  let sx=0, dx=0;
+  const TH=60;
+  function bind(){
+    const el=document.getElementById('calendarSwipeArea');
+    if(!el) return;
+    el.addEventListener('touchstart',e=>{
+      sx=e.touches[0].clientX;
+      dx=0;
+      el.classList.add('swiping');
+    },{passive:true});
+    el.addEventListener('touchmove',e=>{
+      dx=e.touches[0].clientX-sx;
+      if(Math.abs(dx)>10){
+        el.style.transform=`translateX(${Math.max(-30,Math.min(30,dx/4))}px)`;
+      }
+    },{passive:true});
+    el.addEventListener('touchend',()=>{
+      el.style.transform='';
+      el.classList.remove('swiping');
+      if(dx<-TH) nextMonth();
+      else if(dx>TH) prevMonth();
+    },{passive:true});
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',bind);
+  }else bind();
+})();
+
+
+// ===== Dark Mode =====
+function applyTheme(mode){
+  document.body.classList.toggle('dark', mode==='dark');
+  const b=document.querySelector('.dark-toggle');
+  if(b) b.textContent = mode==='dark' ? '☀️':'🌙';
+}
+function toggleDarkMode(){
+  const next=document.body.classList.contains('dark')?'light':'dark';
+  localStorage.setItem('theme',next);
+  applyTheme(next);
+}
+(function(){
+  const saved=localStorage.getItem('theme');
+  const auto=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+  applyTheme(saved||auto);
+})();
+
+
+// ===== V11.1 Auto Theme Sync =====
+const mq=window.matchMedia('(prefers-color-scheme: dark)');
+mq.addEventListener?.('change',e=>{
+  if(!localStorage.getItem('theme')){
+    applyTheme(e.matches?'dark':'light');
+  }
+});
+
+</script>
+
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js'));
+}
+</script>
+
+</body>
+</html>
