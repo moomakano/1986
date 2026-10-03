@@ -20,3 +20,8 @@ V10 Logo Fix:
 - Channel 8 uses the logo asset currently exposed by the official TrueID Channel 8 page.
 - Very TV uses a dedicated logo asset.
 This prevents WorkPoint/Channel 8/Very TV from sharing or displaying each other's logos.
+
+
+V11: เพิ่มหมวด 🎬 หนังฟรี โดยเปิดไปยังหน้า MONOMAX ทางการ และคงการนำทางช่องทีวีผ่านหน้าเว็บทางการ
+
+V12: เพิ่มรางโปสเตอร์หนังฟรี/ทดลองดูฟรีจาก MONOMAX พร้อมปุ่มเปิดหน้าทางการ ไม่โฮสต์หรือดึงไฟล์วิดีโอมาเอง
