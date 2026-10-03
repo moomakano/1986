@@ -75,6 +75,10 @@ box-shadow:0 18px 45px rgba(0,0,0,.35);overflow:hidden;position:relative}
 .fm-note{font-size:9px;color:#858b94;margin:7px 0 12px}
 .fm-link-card button{border:0;border-radius:11px;background:#e50914;color:#fff;padding:11px 18px;font-weight:900;font-size:10px;cursor:pointer;box-shadow:0 10px 25px rgba(229,9,20,.18)}
 @media(max-width:650px){.fm-link-card{min-width:180px}.nhd-logo{font-size:22px}}
+
+.nung-link{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border:0;border-radius:11px;background:#e50914;color:#fff;padding:11px 18px;font-weight:900;font-size:10px;cursor:pointer;box-shadow:0 10px 25px rgba(229,9,20,.18);min-height:38px;-webkit-tap-highlight-color:transparent}
+.nung-link:hover{background:#b20710;color:#fff}
+.nung-link:active{transform:scale(.97)}
 </style></head><body><div class="app"><header><div class="top"><div class="brand"><div class="logo">📺</div><div><h1>Thai TV</h1><div class="sub">TRUEID • FREE TV + MOVIES</div></div></div><button class="refresh" id="refresh">↻</button></div>
 <label class="search">⌕ <input id="search" placeholder="ค้นหาช่องฟรี…"></label><div class="chips" id="chips"></div></header>
 <section class="hero"><div class="eyebrow"><span class="dot"></span> LIVE TV • TRUEID + FREE MOVIES</div><h2>ทีวีฟรี ดูง่ายในที่เดียว</h2><p>รวมช่องฟรีที่คัดไว้ให้แล้ว ค้นหาช่อง แตะการ์ด แล้วดูผ่าน TrueID ได้ทันที</p><div class="free">✓ FREE TV • ไม่มีช่อง Premium</div>
@@ -89,8 +93,8 @@ box-shadow:0 18px 45px rgba(0,0,0,.35);overflow:hidden;position:relative}
   </div>
   <div class="fm-link-card">
     <div class="nhd-logo">NUNG<span>HD4K</span></div>
-    <div class="fm-note">เว็บไซต์ภายนอก • NUNGHD4K</div>
-    <button id="nungBtn">▶ ดูหนังที่ NUNGHD4K</button>
+    <div class="fm-note">เว็บไซต์ภายนอก • NUNGHD4K</div><div style="font-size:8px;color:#666;margin:-2px 0 9px">แตะปุ่มเพื่อเปิดเว็บไซต์ในแท็บใหม่</div>
+    <a id="nungBtn" class="nung-link" href="https://www.nunghd4k.com/" target="_blank" rel="noopener noreferrer">▶ ดูหนังที่ NUNGHD4K</a>
   </div>
 </section>
 <div class="section"><h3 id="title">ช่องฟรียอดนิยม</h3><span id="count"></span></div><div class="grid" id="grid"></div><div class="note">รายการนี้คัดเฉพาะช่องที่นำเสนอเป็นช่องฟรี/ฟรีทีวีบน TrueID ตามข้อมูลหน้าเว็บไซต์ในขณะตรวจสอบ ไม่รวมช่อง Premium และแพ็กเกจสมาชิก</div></div>
@@ -106,5 +110,5 @@ function render(){let a=CHANNELS;if(mode==="fav")a=CHANNELS.filter(x=>fav.has(x.
 function open(x){ if(!x || !x.url) return; window.location.href=x.url; }
 render();
 document.addEventListener("click",e=>{let c=e.target.closest("[data-cat]");if(c){mode="cat";cat=c.dataset.cat;render();return}let w=e.target.closest("[data-watch]");if(w){e.stopPropagation();open(CHANNELS.find(x=>x.name===w.dataset.watch));return}let f=e.target.closest("[data-f]");if(f){e.stopPropagation();fav.has(f.dataset.f)?fav.delete(f.dataset.f):fav.add(f.dataset.f);localStorage.setItem("freefav",JSON.stringify([...fav]));render();return}let card=e.target.closest(".card");if(card)open(CHANNELS.find(x=>x.name===card.dataset.n))});
-$("search").oninput=e=>{q=e.target.value;render()};$("home").onclick=()=>{mode="all";q="";render()};$("fav").onclick=()=>{mode="fav";render()};$("edu").onclick=()=>{mode="edu";render()};$("trueid").onclick=()=>open(CHANNELS.find(x=>x.name==="TrueID Live"));$("nungBtn").onclick=()=>window.location.href="https://www.nunghd4k.com/";$("refresh").onclick=()=>location.reload();$("back").onclick=()=>{$("frame").src="about:blank";$("viewer").classList.remove("show")};$("ext").onclick=()=>window.open(url,"_blank","noopener,noreferrer");
+$("search").oninput=e=>{q=e.target.value;render()};$("home").onclick=()=>{mode="all";q="";render()};$("fav").onclick=()=>{mode="fav";render()};$("edu").onclick=()=>{mode="edu";render()};$("trueid").onclick=()=>open(CHANNELS.find(x=>x.name==="TrueID Live"));$("refresh").onclick=()=>location.reload();$("back").onclick=()=>{$("frame").src="about:blank";$("viewer").classList.remove("show")};$("ext").onclick=()=>window.open(url,"_blank","noopener,noreferrer");
 </script></body></html>
