@@ -11,3 +11,6 @@ V6 clean rebuild from V12 UI base. Fixed the broken JavaScript introduced by pri
 
 
 V8 MONO29: MONO29 now opens the official MONOMAX Live TV page (https://www.monomax.me/livetv). Very TV and ช่อง 8 logo mappings were separated/cleared so they cannot display each other's logo.
+
+
+V9 MONO29 Added: MONO29 is now explicitly included at the top of CHANNELS and has a featured card in the หนังฟรี section. Its Watch action opens https://www.monomax.me/livetv directly.
