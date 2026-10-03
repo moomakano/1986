@@ -1,65 +1,60 @@
 <!doctype html>
 <html lang="th">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#08090d">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Thai TV">
-<link rel="manifest" href="manifest.json">
-<title>Thai TV • Premium</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#08090d"><meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Thai TV">
+<link rel="manifest" href="manifest.json"><title>Thai TV V4 Stable</title>
 <style>
-:root{--bg:#08090d;--card:#14161e;--card2:#1b1e28;--text:#fff;--muted:#9298a8;--line:#292d39;--accent:#ff315f}
+:root{--bg:#08090d;--card:#151821;--text:#fff;--muted:#9298a8;--line:#292e3a;--good:#38d996;--bad:#ff5364}
 *{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-body{padding-bottom:82px}.app{max-width:1180px;margin:auto;padding:env(safe-area-inset-top) 14px 20px}
-header{position:sticky;top:0;z-index:20;background:rgba(8,9,13,.9);backdrop-filter:blur(20px);padding:13px 0 9px}
-.top{display:flex;align-items:center;justify-content:space-between}.brand{display:flex;gap:10px;align-items:center}.logo{width:43px;height:43px;border-radius:14px;background:linear-gradient(135deg,#ff315f,#ff8d38);display:grid;place-items:center;font-size:22px;box-shadow:0 8px 25px #ff315f33}h1{font-size:21px;margin:0}.sub{font-size:11px;color:var(--muted);margin-top:2px}
-.icon{border:1px solid var(--line);background:var(--card);color:#fff;width:42px;height:42px;border-radius:13px;font-size:19px}
+body{padding-bottom:84px}.app{max-width:1180px;margin:auto;padding:env(safe-area-inset-top) 14px 22px}
+header{position:sticky;top:0;z-index:20;background:rgba(8,9,13,.92);backdrop-filter:blur(20px);padding:12px 0 9px}
+.top{display:flex;align-items:center;justify-content:space-between}.brand{display:flex;gap:10px;align-items:center}.logo{width:43px;height:43px;border-radius:14px;background:linear-gradient(135deg,#ff315f,#ff9138);display:grid;place-items:center;font-size:22px}.brand h1{font-size:21px;margin:0}.sub{font-size:11px;color:var(--muted);margin-top:2px}.icon{width:42px;height:42px;border-radius:13px;border:1px solid var(--line);background:var(--card);color:#fff;font-size:19px}
 .search{margin-top:12px;height:47px;border:1px solid var(--line);background:var(--card);border-radius:15px;display:flex;align-items:center;padding:0 13px;gap:8px}.search input{flex:1;background:0;border:0;outline:0;color:#fff;font-size:15px}.search input::placeholder{color:#737989}
 .tabs{display:flex;gap:8px;overflow:auto;padding:12px 0 2px;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}.tab{white-space:nowrap;background:var(--card);border:1px solid var(--line);color:#c8ccd5;border-radius:999px;padding:8px 14px;font-size:12px}.tab.active{background:#fff;color:#111;border-color:#fff}
-.hero{margin-top:10px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(120deg,#171923,#101219);padding:17px;display:flex;justify-content:space-between;align-items:center;gap:15px}.hero b{font-size:17px}.hero small{display:block;color:var(--muted);margin-top:4px}.hero button{border:0;background:#fff;color:#111;border-radius:12px;padding:10px 13px;font-weight:700}
+.hero{margin-top:10px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(120deg,#181b25,#101219);padding:17px;display:flex;align-items:center;justify-content:space-between;gap:12px}.hero b{font-size:17px}.hero small{display:block;color:var(--muted);margin-top:4px}.hero button{border:0;background:#fff;color:#111;border-radius:12px;padding:10px 13px;font-weight:700}
 .section{display:flex;justify-content:space-between;align-items:center;margin:20px 2px 11px}.section h2{font-size:17px;margin:0}.count{font-size:11px;color:var(--muted)}
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}@media(min-width:700px){.grid{grid-template-columns:repeat(4,1fr)}}
-.card{position:relative;background:linear-gradient(145deg,#181b24,#11131a);border:1px solid var(--line);border-radius:18px;overflow:hidden;cursor:pointer;transition:.18s}.card:active{transform:scale(.98)}
-.thumb{height:100px;background:#242832;display:grid;place-items:center;position:relative}.thumb img{max-width:70%;max-height:66px;object-fit:contain}.fallback{font-size:29px;font-weight:800}.live{position:absolute;left:8px;top:8px;background:#ef3340;padding:4px 6px;border-radius:6px;font-size:9px;font-weight:800}.star{position:absolute;right:7px;top:7px;width:30px;height:30px;border:0;border-radius:50%;background:#0009;color:#fff;font-size:16px}.info{padding:9px 10px 11px}.name{font-size:13px;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.meta{display:flex;justify-content:space-between;gap:5px;margin-top:4px;color:var(--muted);font-size:10px}.empty{grid-column:1/-1;text-align:center;padding:35px;background:var(--card);border-radius:18px;color:var(--muted)}
+.card{background:linear-gradient(145deg,#181b24,#11131a);border:1px solid var(--line);border-radius:18px;overflow:hidden;cursor:pointer;transition:.18s}.card:active{transform:scale(.98)}
+.thumb{height:100px;background:#242832;display:grid;place-items:center;position:relative}.thumb img{max-width:70%;max-height:66px;object-fit:contain}.fallback{font-size:29px;font-weight:800}.live{position:absolute;left:8px;top:8px;background:#ef3340;padding:4px 6px;border-radius:6px;font-size:9px;font-weight:800}.star{position:absolute;right:7px;top:7px;width:30px;height:30px;border:0;border-radius:50%;background:#0009;color:#fff;font-size:16px}.info{padding:9px 10px 11px}.name{font-size:13px;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.meta{display:flex;justify-content:space-between;margin-top:4px;color:var(--muted);font-size:10px}.empty{grid-column:1/-1;text-align:center;padding:35px;background:var(--card);border-radius:18px;color:var(--muted)}
 .bottom{position:fixed;z-index:30;left:0;right:0;bottom:0;background:rgba(15,16,22,.95);backdrop-filter:blur(20px);border-top:1px solid var(--line);padding:7px 12px calc(7px + env(safe-area-inset-bottom));display:flex;justify-content:center;gap:7px}.bottom button{border:0;background:transparent;color:#9ea4b3;border-radius:13px;padding:7px 18px;font-size:11px}.bottom button.active{background:#292c37;color:#fff}
-.player{position:fixed;inset:0;background:#000;z-index:60;display:none}.player.show{display:block}.videoWrap{height:100%;display:grid;place-items:center}video{width:100%;max-height:100%;background:#000}.close{position:absolute;z-index:4;top:calc(env(safe-area-inset-top) + 11px);left:12px;width:42px;height:42px;border:0;border-radius:50%;background:#222d;color:#fff;font-size:23px}.ptitle{position:absolute;z-index:4;left:65px;top:calc(env(safe-area-inset-top) + 14px);font-size:14px;font-weight:700;text-shadow:0 2px 8px #000}.playerbar{position:absolute;z-index:5;bottom:calc(18px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);display:flex;gap:8px}.playerbar button{border:1px solid #444;background:#191b22dd;color:#fff;border-radius:12px;padding:10px 12px}
-.now{position:absolute;z-index:5;left:15px;right:15px;bottom:calc(75px + env(safe-area-inset-bottom));background:#1116;border:1px solid #ffffff1a;backdrop-filter:blur(10px);border-radius:14px;padding:10px 12px}.now b{font-size:12px}.now div{font-size:10px;color:#aab0bf;margin-top:3px}
+.player{position:fixed;inset:0;background:#000;z-index:60;display:none}.player.show{display:block}.videoWrap{height:100%;display:grid;place-items:center}video{width:100%;max-height:100%;background:#000}
+.close{position:absolute;z-index:8;top:calc(env(safe-area-inset-top) + 11px);left:12px;width:42px;height:42px;border:0;border-radius:50%;background:#222d;color:#fff;font-size:23px}.ptitle{position:absolute;z-index:8;left:65px;top:calc(env(safe-area-inset-top) + 14px);font-size:14px;font-weight:700;text-shadow:0 2px 8px #000}
+.statusbox{position:absolute;z-index:8;top:calc(env(safe-area-inset-top) + 62px);right:13px;background:#101217dd;border:1px solid #ffffff1a;border-radius:11px;padding:7px 9px;font-size:10px;color:#d9dce5;backdrop-filter:blur(10px)}.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--good);margin-right:5px}.dot.bad{background:var(--bad)}
+.diag{position:absolute;z-index:8;left:13px;right:13px;bottom:calc(132px + env(safe-area-inset-bottom));background:#101217ee;border:1px solid #ffffff1a;border-radius:12px;padding:8px 10px;font-size:10px;color:#c7cbd5;backdrop-filter:blur(10px);display:none}.diag.show{display:block}.stats{position:absolute;z-index:8;left:13px;top:calc(env(safe-area-inset-top) + 62px);background:#101217dd;border:1px solid #ffffff1a;border-radius:11px;padding:7px 9px;font-size:9px;color:#b8bdca;backdrop-filter:blur(10px);line-height:1.5}
+.now{position:absolute;z-index:7;left:15px;right:15px;bottom:calc(77px + env(safe-area-inset-bottom));background:#1119;border:1px solid #ffffff1a;backdrop-filter:blur(10px);border-radius:14px;padding:10px 12px}.now b{font-size:12px}.now div{font-size:10px;color:#aab0bf;margin-top:3px}
+.playerbar{position:absolute;max-width:96vw;overflow-x:auto;scrollbar-width:none;z-index:9;bottom:calc(17px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);display:flex;gap:7px;white-space:nowrap}.playerbar button,.playerbar select{border:1px solid #444;background:#191b22ee;color:#fff;border-radius:12px;padding:10px 11px}.playerbar select{max-width:125px}
 .modal{position:fixed;inset:0;z-index:80;background:#0009;display:none;align-items:flex-end}.modal.show{display:flex}.sheet{width:100%;max-width:650px;margin:auto;background:#151720;border:1px solid var(--line);border-radius:24px 24px 0 0;padding:20px 18px calc(22px + env(safe-area-inset-bottom))}.sheet h3{margin:0 0 14px}.sheet label{display:block;color:#aab0bf;font-size:11px;margin:12px 0 6px}.sheet input{width:100%;height:45px;border-radius:12px;border:1px solid var(--line);background:#0d0f15;color:#fff;padding:0 12px}.actions{display:flex;gap:8px;margin-top:14px}.actions button{flex:1;height:45px;border:0;border-radius:12px;background:#292d39;color:#fff}.actions .primary{background:#fff;color:#111}
 .toast{position:fixed;z-index:100;left:50%;bottom:88px;transform:translate(-50%,15px);opacity:0;background:#fff;color:#111;padding:10px 15px;border-radius:12px;font-size:12px;transition:.2s}.toast.show{opacity:1;transform:translate(-50%,0)}
-</style>
-</head>
+.trueidBtn{background:#2563eb!important;color:#fff!important}.sheet p{margin:8px 0}.trueidView{position:fixed;inset:0;z-index:55;background:#08090d;display:none;padding-top:env(safe-area-inset-top)}
+.trueidView.show{display:block}.tvHead{height:55px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;background:#11131a;border-bottom:1px solid #292e3a}
+.tvHead button{width:38px;height:38px;border:0;border-radius:11px;background:#222632;color:#fff;font-size:21px}
+#trueidFrame{width:100%;height:calc(100% - 55px);border:0;background:#000}
+@media(min-width:800px){.trueidView{left:50%;transform:translateX(-50%);width:min(100%,1180px)}}
+</style></head>
 <body>
-<div class="app">
-<header>
- <div class="top"><div class="brand"><div class="logo">📺</div><div><h1>Thai TV</h1><div class="sub" id="status">กำลังโหลด…</div></div></div><button class="icon" id="refresh">↻</button></div>
- <label class="search">⌕ <input id="search" placeholder="ค้นหาช่องทีวี"></label>
- <div class="tabs" id="tabs"></div>
-</header>
-<div class="hero"><div><b>📡 ดูทีวีออนไลน์</b><small id="heroText">ช่องสาธารณะ • รองรับมือถือและ PWA</small></div><button id="install" hidden>ติดตั้ง</button></div>
-<div class="section"><h2 id="title">ช่องทั้งหมด</h2><span class="count" id="count"></span></div>
-<div class="grid" id="grid"></div>
-</div>
+<div class="app"><header><div class="top"><div class="brand"><div class="logo">📺</div><div><h1>Thai TV</h1><div class="sub" id="status">กำลังโหลด…</div></div></div><button class="icon" id="refresh">↻</button></div>
+<label class="search">⌕ <input id="search" placeholder="ค้นหาช่องทีวี"></label><div class="tabs" id="tabs"></div></header>
+<div class="hero"><div><b>📡 Smart Stream V6</b><small>Local Player + TrueID Direct • ไม่ดึงลิงก์สตรีมภายใน</small></div><button id="install" hidden>ติดตั้ง</button></div>
+<div class="section"><h2 id="title">ช่องทั้งหมด</h2><span class="count" id="count"></span></div><div class="grid" id="grid"></div></div>
+<nav class="bottom"><button class="active" data-view="all">⌂<br>ทั้งหมด</button><button data-view="fav">★<br>โปรด</button><button id="trueidTab">🔵<br>TrueID</button><button id="settings">⚙<br>ตั้งค่า</button></nav>
 
-<nav class="bottom"><button class="active" data-view="all">⌂<br>ทั้งหมด</button><button data-view="fav">★<br>โปรด</button><button id="settings">⚙<br>ตั้งค่า</button></nav>
+<div class="trueidView" id="trueidView">
+      <div class="tvHead"><button id="trueidBack">‹</button><b>TrueID Live</b><button id="trueidExternal">↗</button></div>
+      <iframe id="trueidFrame" title="TrueID Live" referrerpolicy="strict-origin-when-cross-origin"
+        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
+    </div>
+<div class="player" id="player"><button class="close" id="close">×</button><div class="ptitle" id="ptitle"></div>
+<div class="statusbox"><span class="dot" id="dot"></span><span id="streamStatus">กำลังเชื่อมต่อ…</span></div><div class="diag" id="diag">ตรวจสอบสตรีม…</div>
+<div class="stats" id="stats">Buffer: —<br>Quality: Auto<br>Bitrate: —</div>
+<div class="videoWrap"><video id="video" controls playsinline autoplay></video></div>
+<div class="now"><b id="nowTitle">กำลังเล่น</b><div id="nowDesc">—</div></div>
+<div class="playerbar"><select id="quality"><option value="-1">Auto Quality</option></select><button id="pip">▣ PiP</button><button id="air">AirPlay</button><button id="diagnose">🔎 ตรวจสอบ</button><button id="trueid">TrueID</button><button id="reconnect">↻</button></div></div>
 
-<div class="player" id="player">
- <button class="close" id="close">×</button><div class="ptitle" id="ptitle"></div>
- <div class="videoWrap"><video id="video" controls playsinline autoplay></video></div>
- <div class="now" id="now"><b id="nowTitle">กำลังเล่น</b><div id="nowDesc">—</div></div>
- <div class="playerbar"><button id="pip">▣ PiP</button><button id="air">AirPlay</button></div>
-</div>
-
-<div class="modal" id="modal"><div class="sheet">
- <h3>⚙ ตั้งค่า</h3>
- <label>Playlist M3U</label><input id="playlist" placeholder="https://…/th.m3u">
- <label>EPG XMLTV (ถ้ามี)</label><input id="epg" placeholder="https://…/epg.xml">
- <div class="actions"><button id="cancel">ยกเลิก</button><button class="primary" id="save">บันทึก</button></div>
- <p style="font-size:10px;color:#8f95a4;line-height:1.5">ใช้เฉพาะสตรีมและข้อมูล EPG ที่คุณมีสิทธิ์ใช้งานหรือเผยแพร่สาธารณะ</p>
-</div></div>
-<div class="toast" id="toast"></div>
-<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js"></script>
-<script src="app.js"></script>
-</body>
-</html>
+<div class="modal" id="trueidModal"><div class="sheet"><h3>🔵 TrueID Live</h3>
+<p style="font-size:12px;color:#aeb4c1;line-height:1.5">เปิด TrueID โดยตรง เพื่อใช้ Player และระบบ Adaptive Streaming ของ TrueID โดยไม่ดึงลิงก์สตรีมภายในมาใช้ในแอป</p>
+<div class="actions"><button id="trueidCancel">ปิด</button><button class="primary" id="trueidOpen">เปิด TrueID</button></div></div></div>
+<div class="modal" id="modal"><div class="sheet"><h3>⚙ ตั้งค่า</h3><label>Playlist M3U</label><input id="playlist" placeholder="https://…/th.m3u"><label>EPG XMLTV (ถ้ามี)</label><input id="epg" placeholder="https://…/epg.xml"><label>Backup Stream (URL ต่อ 1 บรรทัด)</label><input id="backup" placeholder="https://backup-1.m3u8&#10;https://backup-2.m3u8"><div class="actions"><button id="cancel">ยกเลิก</button><button class="primary" id="save">บันทึก</button></div>
+<p style="font-size:10px;color:#8f95a4;line-height:1.5">V4 เพิ่ม Auto Quality และเปลี่ยนไป Backup Stream เมื่อสตรีมหลักล้มเหลวหลายครั้ง ใช้เฉพาะ stream ที่คุณมีสิทธิ์ใช้งาน</p></div></div><div class="toast" id="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js"></script><script src="app.js"></script></body></html>
