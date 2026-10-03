@@ -3,6 +3,6 @@
   "short_name": "Thai TV Free",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#07100b",
+  "background_color": "#080808",
   "theme_color": "#27d17f"
 }
