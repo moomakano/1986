@@ -85,7 +85,16 @@ box-shadow:0 18px 45px rgba(0,0,0,.35);overflow:hidden;position:relative}
 .nung-direct:hover{border-color:#e50914;transform:translateY(-2px)}
 .nung-big-btn{display:flex;align-items:center;justify-content:center;min-height:42px;border-radius:11px;background:#e50914;color:#fff;font-weight:900;font-size:11px;margin-top:10px}
 @media(max-width:650px){.nung-direct{min-width:180px;padding:16px}.nung-big-btn{font-size:10px}}
-</style></head><body><div class="app"><header><div class="top"><div class="brand"><div class="logo">📺</div><div><h1>Thai TV</h1><div class="sub">TRUEID • FREE TV + MOVIES</div></div></div><button class="refresh" id="refresh">↻</button></div>
+<style>
+@media (min-width:1200px) and (min-height:600px){
+body.tv-layout .container{max-width:1800px}
+body.tv-layout .focusable.tv-focus{outline:4px solid #e50914!important;outline-offset:4px;transform:scale(1.035);z-index:30;box-shadow:0 0 0 8px rgba(229,9,20,.16),0 18px 50px rgba(0,0,0,.55)}
+body.tv-layout .free-movies{padding:25px 30px}
+body.tv-layout .movie-rail{gap:18px}
+body.tv-layout .fm-head h2{font-size:31px}
+body.tv-layout .btn{font-size:13px;padding:12px 18px}
+.tv-focus{scroll-margin:100px}
+</style></style></head><body><div class="app"><header><div class="top"><div class="brand"><div class="logo">📺</div><div><h1>Thai TV</h1><div class="sub">TRUEID • FREE TV + MOVIES</div></div></div><button class="refresh" id="refresh">↻</button></div>
 <label class="search">⌕ <input id="search" placeholder="ค้นหาช่องฟรี…"></label><div class="chips" id="chips"></div></header>
 <section class="hero"><div class="eyebrow"><span class="dot"></span> LIVE TV • TRUEID + FREE MOVIES</div><h2>ทีวีฟรี ดูง่ายในที่เดียว</h2><p>รวมช่องฟรีที่คัดไว้ให้แล้ว ค้นหาช่อง แตะการ์ด แล้วดูผ่าน TrueID ได้ทันที</p><div class="free">✓ FREE TV • ไม่มีช่อง Premium</div>
 
@@ -117,4 +126,17 @@ function open(x){ if(!x || !x.url) return; window.location.href=x.url; }
 render();
 document.addEventListener("click",e=>{let c=e.target.closest("[data-cat]");if(c){mode="cat";cat=c.dataset.cat;render();return}let w=e.target.closest("[data-watch]");if(w){e.stopPropagation();open(CHANNELS.find(x=>x.name===w.dataset.watch));return}let f=e.target.closest("[data-f]");if(f){e.stopPropagation();fav.has(f.dataset.f)?fav.delete(f.dataset.f):fav.add(f.dataset.f);localStorage.setItem("freefav",JSON.stringify([...fav]));render();return}let card=e.target.closest(".card");if(card)open(CHANNELS.find(x=>x.name===card.dataset.n))});
 $("search").oninput=e=>{q=e.target.value;render()};$("home").onclick=()=>{mode="all";q="";render()};$("fav").onclick=()=>{mode="fav";render()};$("edu").onclick=()=>{mode="edu";render()};$("trueid").onclick=()=>open(CHANNELS.find(x=>x.name==="TrueID Live"));$("refresh").onclick=()=>location.reload();$("back").onclick=()=>{$("frame").src="about:blank";$("viewer").classList.remove("show")};$("ext").onclick=()=>window.open(url,"_blank","noopener,noreferrer");
+</script><script>
+(function(){
+const tv=matchMedia('(min-width:1200px) and (min-height:600px)').matches;
+if(!tv)return; document.body.classList.add('tv-layout');
+const q=()=>[...document.querySelectorAll('a[href],button,[tabindex]:not([tabindex="-1"]),.focusable')].filter(x=>{let r=x.getBoundingClientRect();return r.width&&r.height&&getComputedStyle(x).visibility!=='hidden'});
+let cur=null;
+function focus(x){q().forEach(e=>e.classList.remove('tv-focus'));if(!x)return;cur=x;x.classList.add('tv-focus');try{x.focus({preventScroll:true})}catch(e){}x.scrollIntoView({behavior:'smooth',block:'nearest',inline:'nearest'})}
+function next(d){
+if(!cur)return q()[0];let a=cur.getBoundingClientRect(),ax=a.left+a.width/2,ay=a.top+a.height/2,best=null,score=1e99;
+q().forEach(x=>{if(x===cur)return;let r=x.getBoundingClientRect(),dx=r.left+r.width/2-ax,dy=r.top+r.height/2-ay,p,s;if(d==='left'){if(dx>=-4)return;p=-dx;s=Math.abs(dy)}if(d==='right'){if(dx<=4)return;p=dx;s=Math.abs(dy)}if(d==='up'){if(dy>=-4)return;p=-dy;s=Math.abs(dx)}if(d==='down'){if(dy<=4)return;p=dy;s=Math.abs(dx)}let z=p*1000+s;if(z<score){score=z;best=x}});return best}
+document.addEventListener('keydown',e=>{let k=e.key;if(/^Arrow/.test(k)){e.preventDefault();let n=next(k.slice(5).toLowerCase());if(n)focus(n)}else if(k==='Enter'&&cur){e.preventDefault();cur.click()}},false);
+setTimeout(()=>focus(q()[0]),500);
+})();
 </script></body></html>

@@ -31,3 +31,5 @@ V13: เอาโปสเตอร์หนัง MONOMAX ออก และ�
 V14: แก้ปุ่ม NUNGHD4K เป็นลิงก์ <a> โดยตรง เพื่อให้กดได้บน PWA/Safari และเปิดเว็บไซต์ในแท็บใหม่
 
 V15: เปลี่ยน NUNGHD4K เป็น <a> แบบคลิกได้ทั้งการ์ด ไม่มี JavaScript handler และตั้ง z-index/pointer-events ให้เหมาะกับ PWA
+
+V16: TV mode for large screens with remote arrow/Enter navigation; PC/mobile UI remains unchanged.
