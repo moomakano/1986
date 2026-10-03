@@ -11,3 +11,6 @@ UI v2: ปรับธีมให้ใช้งานง่ายขึ้น 
 - เปลี่ยนธีมจากเขียวเป็นดำ/แดงแบบ Netflix-inspired
 - เพิ่มหมวด "หนังฟรี" และ MONO29 โดยใช้หน้า Live ทางการของ TrueID
 - ไม่เพิ่มช่อง Premium ที่สถานะสิทธิ์ฟรีไม่ชัดเจน
+
+
+V2 fixes: removed remaining green UI accents and corrected MONO29 to the verified TrueID public page https://tv.trueid.net/th-en/live/mono29.
