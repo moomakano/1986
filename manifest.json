@@ -1,8 +1,9 @@
 {
-  "name": "Thai TV TrueID Free TV",
-  "short_name": "Thai TV Free",
+  "name": "Thai TV TrueID Netflix Edition",
+  "short_name": "Thai TV",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#07100b",
-  "theme_color": "#27d17f"
+  "background_color": "#07080d",
+  "theme_color": "#e50914",
+  "description": "Free TV PWA with TV-style navigation and official TrueID pages"
 }

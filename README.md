@@ -1,4 +1,10 @@
-# Thai TV PWA V12 — TrueID Free TV
-เฉพาะช่องฟรี/ฟรีทีวี ไม่รวมช่อง Premium หรือแพ็กเกจสมาชิก
-จำนวนรายการ: 58
-ตัดออก: True Sports, SPOTV, beIN SPORTS, Golf, True Ball Thai, True Film, True Series, Event และช่องพรีเมียมอื่นๆ
+# Thai TV PWA V13 — TrueID Netflix Edition
+- Free TV catalog retained from V12
+- Netflix/Smart-TV style home UI
+- Real TrueID logo URLs where verified; text fallback for channels without a verified asset
+- Current-program rail based on the latest TrueID homepage snapshot checked during build
+- EPG panel: displays available checked data and otherwise links to the official channel page instead of inventing schedule data
+- Keyboard/remote navigation: arrows, Enter, Escape, F
+- Fullscreen viewer
+- Favorites/search/category filters
+- Uses official TrueID live pages; no private stream extraction or DRM bypass
