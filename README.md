@@ -8,3 +8,6 @@ UI v2: ปรับธีมให้ใช้งานง่ายขึ้น 
 
 
 V6 clean rebuild from V12 UI base. Fixed the broken JavaScript introduced by prior logo patch, added real channel logos, MONO29, and reliable direct opening of official TrueID channel pages.
+
+
+V8 MONO29: MONO29 now opens the official MONOMAX Live TV page (https://www.monomax.me/livetv). Very TV and ช่อง 8 logo mappings were separated/cleared so they cannot display each other's logo.
