@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 360">
+<rect width="500" height="360" rx="42" fill="#fff"/>
+<g transform="translate(115 35)">
+<path d="M35 20h200v34H35z" fill="#111"/>
+<rect x="25" y="55" width="220" height="145" rx="12" fill="#111"/>
+<rect x="30" y="60" width="40" height="135" fill="#f4e64c"/>
+<rect x="70" y="60" width="40" height="135" fill="#58c7dc"/>
+<rect x="110" y="60" width="40" height="135" fill="#7ac943"/>
+<rect x="150" y="60" width="40" height="135" fill="#b85aa8"/>
+<rect x="190" y="60" width="40" height="135" fill="#ef3e3e"/>
+<circle cx="78" cy="105" r="8" fill="none" stroke="#111" stroke-width="5"/>
+<circle cx="192" cy="105" r="8" fill="none" stroke="#111" stroke-width="5"/>
+<path d="M75 150 L115 125 L150 160 L190 125" fill="none" stroke="#111" stroke-width="6"/>
+<circle cx="115" cy="125" r="7" fill="#fff" stroke="#111" stroke-width="4"/>
+<circle cx="150" cy="160" r="7" fill="#fff" stroke="#111" stroke-width="4"/>
+<path d="M80 225h110" stroke="#111" stroke-width="14" stroke-linecap="round"/>
+</g>
+<text x="250" y="320" text-anchor="middle" font-family="Arial,sans-serif" font-size="54" font-weight="800" fill="#111">workpoint</text>
+</svg>
