@@ -1,8 +1,8 @@
 {
-  "name": "Thai TV TrueID TV Hub",
-  "short_name": "Thai TV",
+  "name": "Thai TV TrueID Free TV",
+  "short_name": "Thai TV Free",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#070912",
-  "theme_color": "#5b8cff"
+  "background_color": "#07100b",
+  "theme_color": "#27d17f"
 }
