@@ -14,3 +14,9 @@ V8 MONO29: MONO29 now opens the official MONOMAX Live TV page (https://www.monom
 
 
 V9 MONO29 Added: MONO29 is now explicitly included at the top of CHANNELS and has a featured card in the หนังฟรี section. Its Watch action opens https://www.monomax.me/livetv directly.
+
+V10 Logo Fix:
+- WorkPoint TV no longer uses the incorrect TrueID image asset; it uses a dedicated WorkPoint logo asset.
+- Channel 8 uses the logo asset currently exposed by the official TrueID Channel 8 page.
+- Very TV uses a dedicated logo asset.
+This prevents WorkPoint/Channel 8/Very TV from sharing or displaying each other's logos.
